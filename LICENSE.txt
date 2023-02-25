@@ -1,0 +1,173 @@
+VANILLA PASTEL CRAYON DIGITAL PRODUCT LICENSE
+Version 1.0, Copyright (C) 2022 Eimi Rein
+<eimireindayo@gmail.com>
+
+This is a simplified license that can be provided to 
+people of any age, as long as comprehended accurately. 
+Anyone can copy and share this license, but changes to 
+it, except for "SECTION 0" per product, are not allowed.
+
+- - - - - -
+
+QUICK EVALUATION:
+
+PERMISSIONS (limited)
+✅ Distribution
+✅ Modification
+✅ Private use
+✅ Commercial use
+
+CONDITIONS
+⚠️ Disclose source
+⚠️ License and copyright notice
+⚠️ Network use is distribution
+⚠️ Same license
+⚠️ State changes
+⚠️ Notify copyright owner
+⚠️ Author mention in new product
+
+LIMITATIONS
+🚫 Prohibited content included
+🚫 Liability
+🚫 Warranty
+🚫 Patent use
+🚫 Trademark use
+🚫 Approval required
+
+- - - - - -
+
+SECTION 0: COPYRIGHT NOTICE
+
+Copyright owner: 
+Product name: 
+Date of creation: 0000/00/00, 00:00
+Contact e-mail: 
+
+- - - - - -
+
+SECTION 1: DEFINITIONS
+
+Copyright owner - a person or company that created this
+licensed product and owns all the rights for it.
+
+Product - any kind of original work created by a person
+or company, be it free or paid.
+
+This license - the "VANILLA PASTEL CRAYON DIGITAL 
+PRODUCT LICENSE" (or VPCDP) created by Eimi Rein.
+
+This product - the original work this license is 
+attached to, copyrighted by the owner mentioned in 
+"SECTION 0".
+
+The user - a person or company that interacts with 
+this product.
+
+The licensed code - any files from this product with 
+programming language extensions (ex: .html, .css, .js, 
+.php, .py, .lua, .c, etc), as well as the output and 
+computed/compiled version of.
+
+Prohibited content - any kind of content that is 
+completely prohibited of any use.
+
+Conditions of use - a set of rules the user 
+agrees to when using this product.
+
+- - - - - -
+
+SECTION 2: PROHIBITED CONTENT
+
+INITIAL READ NOTICE: The content labeled or mentioned 
+as "FREE" within this product (whether an interface, 
+document or a README file) can include limitations and 
+conditions of use, so, please, read and agree to them.
+
+1. Graphics: any kind of visual content (designs, 
+images, visual effects, videos and so on) that is not 
+labeled or mentioned as "FREE" from within this product.
+
+2. Assets: any files, archives and folders in this 
+product that are not labeled or mentioned as free from 
+within the corresponding file or a README file, 
+except for the licensed code.
+
+3. Branding: any original content that have been 
+created specifically for this product (characters, 
+designs, concepts, stories, universes, etc), along with 
+profiles, logos, resumes and identities of the copyright 
+owner, partners, collaborators and staff members.
+
+- - - - - -
+
+SECTION 3: CONDITIONS OF USE
+
+By using this product you will agree to the 
+following conditions:
+
+1. PROHIBITIONS
+Do not use the prohibited content (mentioned in 
+"SECTION 2") in any way. The only permitted to use 
+content of this product is the licensed code.
+
+2. COPYRIGHT NOTICE
+When copying, modifying, replicating or sharing the 
+licensed code, the existing copyright notices inside 
+of it must be left untouched.
+
+3. AUTHOR MENTION
+When publishing a new product that includes the licensed 
+code, the name of the copyright owner must be mentioned in 
+the new product (usually in Credits or Developers section).
+
+4. DISCLOSE SOURCE
+The new product that includes the licensed code must be 
+unencrypted, free and available to everyone, without any 
+built-in paid content and interactions 
+(except for "Support Me").
+
+5. SAME LICENSE
+The new product that contains the licensed code must 
+include this license.
+
+6. STATE CHANGES
+When modifying or replicating the licensed code, all the 
+changes made to it must be stated in any form (from a tiny 
+notice to detailed documentation).
+
+7. NOTIFY THE COPYRIGHT OWNER
+Before publishing a new product that contains the licensed 
+code, notify the copyright owner via e-mail mentioned 
+in "SECTION 0".
+
+8. COMMERCIAL AGREEMENT
+Before publishing a new product that contains the licensed 
+code, wait for agreement notice from the copyright owner. 
+The notice will be sent to the e-mail used in "7. NOTIFY 
+THE COPYRIGHT OWNER".
+This resolution was added with purpose of decreasing 
+the amount of harmful productions.
+
+9. NO TRADEMARK AND PATENT USE
+No patent and trademark use is granted. This product is 
+not supposed to be duplicated. The code it provides to 
+user is shared with purpose of either contributions to 
+this product, improvement in existing or newly created 
+products, or creation of brand new inventions.
+
+10. NO WARRANTY AND LIABILITY
+This product does not provide any warranty programs, and 
+the copyright owner of this product, as well as any of 
+its contributors, does not bear any legal liability.
+
+- - - - - -
+
+This license may undergo further changes, 
+therefore the current version is not considered final.
+
+If you wish to update your current license or contribute 
+to further versions - feel free to contact the license's 
+copyright owner via e-mail (eimireindayo@gmail.com), 
+or create a pull request:
+
+https://github.com/eimirein/VPCDP/pulls
