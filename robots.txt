@@ -1,0 +1,10 @@
+User-agent: Googlebot
+Disallow: /assets/
+
+User-agent: Twitterbot
+Disallow: /assets/
+
+User-agent: *
+Disallow: /assets/
+
+Sitemap: https://eimirein.github.io/vanibox/sitemap.xml
