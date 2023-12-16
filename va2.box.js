@@ -1,12 +1,10 @@
-//	Va2:Box (VaniBox) - Embedded version + va2.util.js
-//
-//	This code is licensed under VPCDP-1.0 - [https://github.com/eimirein/VPCDP]
-//			by Eimi Rein (霊音・永旻) - @eimirein - [https://github.com/eimirein]
-//
+/*	[va2.box + va2.util]
+|	This code is licensed under VPCDP-1.0 - [https://github.com/eimirein/VPCDP]
+|			by Eimi Rein (霊音・永旻) - @eimirein - [https://github.com/eimirein]
+*/
 "use strict"
 // Return element by id
 function emi(id) { if (document.getElementById(id)) { return document.getElementById(id) } else { return null } }
-
 const va2 = {
 	// Return all children of the element by tag
 	tags: function(id, tag) { if (emi(id)) { return emi(id).querySelectorAll(tag) } },
@@ -73,6 +71,17 @@ const va2 = {
 	// Execute js from string after a cooldown
 	wait: async function(ms, str) {
 		await new Promise(resolve => setTimeout(resolve, ms)); eval(str)
+	},
+	// Changes text content for the selected ids on call
+	txt: function(arr_ids, arr_or_str_text) {
+		let t = arr_or_str_text
+		let id = arr_ids
+		for (let i=0; i<id.length; i++) {
+			if (emi(id[i])) {
+				if (typeof t == 'string') { emi(id[i]).textContent = t }
+				else if (Array.isArray(t)) { emi(id[i]).textContent = t[i] }
+			}
+		}
 	},
 	// Copy text from the selected input or a string
 	copy: function(id_or_str) {
@@ -199,49 +208,49 @@ const va2 = {
 			}
 		} else if (typeof data === 'string') {
 			em.innerHTML = em.innerHTML + data
-		} else {
+		} else if (data) {
 			em.appendChild(data)
-		}
+		} else { va2.log(2, `mk :: Element with id [${id}] does not exist`) }
 	},
 	// Load JS script or CSS sheet, or load/create and download a file
 	// JS/CSS : (string) or (url, 1)
 	// File: (url) or (filename, filedata)
 	deploy: {
-		js: function (str, any) {
-			const head = emi('head')
-			if (!any) { // String
+		js: function (str, bool) {
+			const _root = document.body // emi('head')
+			if (!bool) { // String
 				let uid = 'ext.JS.generic'
 				if (emi(uid)) { emi(uid).remove() }
 				let em = document.createElement('script')
 				em.id = uid
 				em.innerHTML = str
-				head.appendChild(em)
+				_root.appendChild(em)
 				em.onload = ()=>{ va2.log(0, 'deployed :: '+em.id) }
 			} else { // URL
 				let em = document.createElement('script')
 				em.id = va2.uid('ext.JS.')
 				em.src = str
-				head.appendChild(em)
+				_root.appendChild(em)
 				em.onload = ()=>{ va2.log(0, 'deployed :: '+em.id+` (${str})`) }
 			}
 		},
 
-		css: function (str, any) {
-			const head = emi('head')
-			if (!any) { // String
+		css: function (str, bool) {
+			const _root = document.body
+			if (!bool) { // String
 				let uid = 'ext.CSS.generic'
 				if (emi(uid)) { emi(uid).remove() }
 				let em = document.createElement('style')
 				em.id = uid
 				em.innerHTML = str
-				head.appendChild(em)
+				_root.appendChild(em)
 				em.onload = ()=>{ va2.log(0, 'deployed :: '+em.id) }
 			} else { // URL
 				let em  = document.createElement('link')
 				em.id = va2.uid('ext.CSS.')
 				em.rel = 'stylesheet'
 				em.href = str
-				head.appendChild(em)
+				_root.appendChild(em)
 				em.onload = ()=>{ va2.log(0, 'deployed :: '+em.id+` (${str})`) }
 			}
 		},
@@ -269,6 +278,11 @@ const va2 = {
 				emi(id).style.display = disp[int_display]
 			} else { emi(id).style.display = disp[0] }
 		} else { va2.log(2, `show :: Element with id [${id}] does not exist`) }
+	},
+	// Show another element on hover
+	hshow: function(root, id) {
+		emi(root).onmouseover = ()=>{ va2.show(id) }
+		emi(root).onmouseout = ()=>{ va2.hide(id) }
 	},
 	// Fully hide element(s) --> (display: none)
 	hide: function(...ids) {
@@ -303,54 +317,77 @@ const va2 = {
 	vport: function(func_desktop, func_mobile) {
 		let h = window.innerHeight
 		let w = window.innerWidth
-		if ( percent(h, w) > 100 ) { func_mobile() }
+		if ( va2.per(h, w) > 75 ) { func_mobile() }
 		else { func_desktop() }
+	},
+	// Animate an element, optionally set a timer to clear the animation
+	ani: function(id, animation, timer) {
+		const em = emi(id)
+		if (em) {
+			em.style.animation = animation
+			if (timer) {
+				void emi(id).offsetWidth //reflow
+				setTimeout(()=>{ em.style.animation = null }, timer)
+			}
+		} else { log('a8 :: Element with id ['+id+'] does not exist', 1) }
 	},
 	// Slider widget function
 	//1. Create a bunch of elements with equal incrementing ids --> 'cat1', 'cat2', 'cat3'
 	//2. Initiate them in the body.onload() --> slide('cat', 1, 3)
 	//3. Set styles for given elements --> .cats.slide {display: block}; .cats.slided {display: none}
 	slides: {},
-	slide: function(id, dir, _init) {
+	slide: function(id, dir) {
 		const slides = va2.slides
 		// Create [slides] and slides[id] arrays if they doesn't exist
-		if (!slides[id] && _init) { slides[id]=[]; for (let i=0; i<(_init+1); i++) { slides[id].push(i) } }
-		if (dir=='R') { // Change class for this [id] and switch to next
+		if (!slides[id]) {
+			var amount = 0
+			document.querySelectorAll(`[id^=${id}]`).forEach((i)=>{ amount++ })
+			slides[id]=[]
+			for (let i=1; i<(amount+1); i++) {
+				slides[id].push(i)
+				if (i>1 && emi(id+i)) { emi(id+i).classList.add('slided') }
+				if (!emi(id+i)) { va2.log(2, `slide :: element with id [${id+i}] does not exist`) }
+			}
+		}
+		// Change class for this [id] and switch to next
+		if (dir=='n') {
 			if (emi(id+slides[id][0])) {
-				emi(id+slides[id][0]).classList.remove("slide", "slideR", "slideL")
+				emi(id+slides[id][0]).classList.remove("slide", "slideN", "slideP")
 				emi(id+slides[id][0]).style.animation = null
 				emi(id+slides[id][0]).classList.add("slided")
 			}
 			slides[id][0] = slides[id][0]+1
 			if (emi(id+slides[id][0])) { // Change class for the new [id]
 				emi(id+slides[id][0]).classList.remove("slided")
-				emi(id+slides[id][0]).classList.add("slide", "slideR")
+				emi(id+slides[id][0]).classList.add("slide", "slideN")
 			} else { // If next [id] doesn't exist, set index to 1 and change class
 				slides[id][0] = 1
 				emi(id+slides[id][0]).classList.remove("slided")
-				emi(id+slides[id][0]).classList.add("slide", "slideR")
+				emi(id+slides[id][0]).classList.add("slide", "slideN")
 			}
 		}
-		if (dir=='L') { // Change class for this [id] and switch to previous
+		// Change class for this [id] and switch to previous
+		if (dir=='p') {
 			if (emi(id+slides[id][0])) {
-				emi(id+slides[id][0]).classList.remove("slide", "slideL", "slideR")
+				emi(id+slides[id][0]).classList.remove("slide", "slideP", "slideN")
 				emi(id+slides[id][0]).style.animation = null
 				emi(id+slides[id][0]).classList.add("slided")
 			}
 			slides[id][0] = slides[id][0]-1
 			if (emi(id+slides[id][0])) { // Change class for the new [id]
 				emi(id+slides[id][0]).classList.remove("slided")
-				emi(id+slides[id][0]).classList.add("slide", "slideL")
+				emi(id+slides[id][0]).classList.add("slide", "slideP")
 			} else { // If previous [id] doesn't exist, set index to [max] and change class
-				slides[id][0] = (slides[id].length-1)
+				slides[id][0] = slides[id].length
 				emi(id+slides[id][0]).classList.remove("slided")
-				emi(id+slides[id][0]).classList.add("slide", "slideL")
+				emi(id+slides[id][0]).classList.add("slide", "slideP")
 			}
+			console.log(slides[id][0])
 		}
 		// Check if [id] with [dir] index exists and change classes for this and selected [id]
 		if (typeof dir=='number' && emi(id+dir)) {
 			if (emi(id+slides[id][0])) {
-				emi(id+slides[id][0]).classList.remove("slide", "slideR", "slideL")
+				emi(id+slides[id][0]).classList.remove("slide", "slideN", "slideP")
 				emi(id+slides[id][0]).style.animation = null
 				emi(id+slides[id][0]).classList.add("slided")
 			}
@@ -398,6 +435,29 @@ const va2b = {
 			va2b.make(id); va2b.gen(id)
 		}
 	},
+	// Initiate and open raw data editor
+	editRaw: function() {
+		va2.hide('va2menu')
+		va2.show('va2raw')
+		emi('va2rawHTML').value = document.body.innerHTML.replace(/^\n/gm, '')
+		if (va2b.data['va2b.raw.css']) {
+			emi('va2rawCSS').value = va2b.data['va2b.raw.css']
+		}
+		if (va2b.data['va2b.raw.js']) {
+			emi('va2rawJS').value = va2b.data['va2b.raw.js']
+		} else {
+			emi('va2rawJS').value = va2b.userPresetTemp
+		}
+	},
+	saveRaw: function() {
+		document.body.innerHTML = emi('va2rawHTML').value
+		va2.deploy.css(emi('va2rawCSS').value)
+		va2.deploy.js(emi('va2rawJS').value)
+		emi('va2rawHTML').value = document.body.innerHTML.replace(/^\n/gm, '')
+		va2b.data['va2b.raw.css'] = emi('va2rawCSS').value
+		va2b.data['va2b.raw.js'] = emi('va2rawJS').value
+		va2b.store()
+	},
 	// Create a new element
 	make: function(_id, _root, _tag) {
 		let id = (_id || va2.uid())
@@ -427,9 +487,16 @@ const va2b = {
 		va2b.data[val] = va2b.data[id]
 		delete va2b.data[id]
 		emi(id).id = val
+		emi(id+'-text').id = val+'-text'
 		va2b.save(val); va2b.gen(val); va2b.store()
 	},
 	// Generate attribute fields
+	addText: function(id, txt) {
+		if (!emi(id+'-text')) {
+			va2.mk(`<x id='${id}-text'>${txt}</x>`, id)
+		}
+		emi(`${id}-text`).innerHTML = txt
+	},
 	field: function(name, value, func_str) {
 		return `<va2F class='center'><div class='center'><p>${name}</p></div><input type='text' value="${value}" onfocusout="${func_str}"></va2F>`
 	},
@@ -451,7 +518,7 @@ const va2b = {
 		va2.mk(va2b.field('Tag name', `${em.tagName.toLowerCase()}`, `va2b.retag('${id}', this.value)`), 'va2head')
 		va2.mk(va2b.field('Unique ID', `${id}`, `va2b.rename('${id}', this.value)`), 'va2head')
 		va2.mk(va2b.field('Classes', `${em.className}`, `emi('${id}').className=this.value; va2b.data['${id}'].metadata.clist=this.value; va2b.store()`), 'va2head')
-		va2.mk(va2b.field('Content', `${va2b.data[id].metadata.txt || ''}`, `emi('${id}').textContent=this.value; va2b.data['${id}'].metadata.txt=this.value; va2b.store()`), 'va2head')
+		va2.mk(va2b.field('Content', `${va2b.data[id].metadata.txt || ''}`, `va2b.addText('${id}', this.value); va2b.data['${id}'].metadata.txt=this.value; va2b.store()`), 'va2head')
 		va2.mk(va2b.btn('Delete', `va2.rm('${id}'); va2.hide('va2editor', 'va2esc'); va2b.store()`), 'va2foot')
 		va2.mk(va2b.btn('Save', `va2b.store(1)`), 'va2foot')
 		va2.mk(va2b.btn('Load', `va2b.retrieve(1)`), 'va2foot')
@@ -471,50 +538,61 @@ const va2b = {
 	},
 	// Data exchange: array --> element
 	load: function(id) {
-		let em = emi(id)
-		for (const [i,v] of Object.entries(va2b.data[id])) {
-			if (i!=='metadata') { em.style[i] = v }
+		if ((id !== 'va2b.raw.css') && (id !== 'va2b.raw.js')) {
+			let em = emi(id)
+			for (const [i,v] of Object.entries(va2b.data[id])) {
+				if (i!=='metadata') { em.style[i] = v }
+			}
+			for (const [i,f] of Object.entries(va2b.data[id].metadata.f)) {
+				emi(id)[i] = Function(f)
+			}
+			em.className = va2b.data[id].metadata.clist
+			if (va2b.data[id].metadata.txt) {
+				va2b.addText(id, va2b.data[id].metadata.txt)
+			}
 		}
-		for (const [i,f] of Object.entries(va2b.data[id].metadata.f)) {
-			emi(id)[i] = Function(f)
-		}
-		em.className = va2b.data[id].metadata.clist
-		em.textContent = va2b.data[id].metadata.txt
 	},
 	// Data exchange: element --> array
 	save: function(id) {
-		if (!va2b.data[id]) { va2b.data[id] = {} }
-		if (!va2b.data[id].metadata) { va2b.data[id].metadata = {} }
-		if (!va2b.data[id].metadata.f) { va2b.data[id].metadata.f = {} }
-		for (const i of va2b.fields) {
-			va2b.data[id][i] = emi(id).style[i]
-		}
-		for (const i of va2b.funcs) {
-			if (!va2b.data[id].metadata.f[i]) {
-				va2b.data[id].metadata.f[i] = ''
+		if ((id !== 'va2b.raw.css') && (id !== 'va2b.raw.js')) {
+			if (!va2b.data[id]) { va2b.data[id] = {} }
+			if (!va2b.data[id].metadata) { va2b.data[id].metadata = {} }
+			if (!va2b.data[id].metadata.f) { va2b.data[id].metadata.f = {} }
+			for (const i of va2b.fields) {
+				va2b.data[id][i] = emi(id).style[i]
+			}
+			for (const i of va2b.funcs) {
+				if (!va2b.data[id].metadata.f[i]) {
+					va2b.data[id].metadata.f[i] = ''
+				}
+			}
+			va2b.data[id].metadata.root = (emi(id).parentNode.id || 'body')
+			va2b.data[id].metadata.tag = emi(id).tagName
+			va2b.data[id].metadata.clist = emi(id).className
+			if (emi(id+'-text')) {
+				va2b.data[id].metadata.txt = emi(id+'-text').innerHTML
 			}
 		}
-		va2b.data[id].metadata.root = (emi(id).parentNode.id || 'body')
-		va2b.data[id].metadata.tag = emi(id).tagName
-		va2b.data[id].metadata.clist = emi(id).className
 	},
 	// Save data to storage. Download and copy to clipboard if true
 	store: function(bool) {
 		let where = (va2b.user.storage || 'session')
 		let v = 'va2box'
 		for (const [id,_] of Object.entries(va2b.data)) {
-			if (emi(id)) { va2b.save(id) }
-			else { delete va2b.data[id] }
+			if ((id !== 'va2b.raw.css') && (id !== 'va2b.raw.js')) {
+				if (emi(id)) { va2b.save(id) }
+				else { delete va2b.data[id] }
+			}
 		}
 		if (where=='local') { va2.st.l(v, va2b.data) }
 		if (where=='session') { va2.st.s(v, va2b.data) }
 		if (bool) {
 			va2.deploy.f(`eimirein.va2box.data.${va2.date()}_${va2.time('-')}.txt`, JSON.stringify(va2b.data))
-			va2.deploy.f(`eimirein.va2box(${va2b.user.sessionId}).html`, document.body.innerHTML)
+			va2.deploy.f(`eimirein.va2box(${va2b.user.sessionId}).html`, document.body.innerHTML.replace(/^\n/gm, ''))
 			va2.copy(JSON.stringify(va2b.data))
 		}
 	},
-	// Clear current session and retrieve data from storage or storage (if bool passed)
+	// Clear current session and retrieve data from storage or clipboard (if bool passed)
 	clear: function() {
 		for (const [id,_] of Object.entries(va2b.data)) {
 			delete va2b.data[id]
@@ -538,14 +616,18 @@ const va2b = {
 	assemble: function() {
 		va2.hide('va2editor')
 		for (const [id,arr] of Object.entries(va2b.data)) {
-			if (emi(id)) { va2.rm(id) }
-			let tag = arr.metadata.tag
-			let ext = ''
-			if (arr.metadata.root==='body') { ext = '\n' }
-			va2.mk(`<${tag} id='${id}'>\n</${tag}>\n${ext}`, arr.metadata.root)
-			va2b.load(id)
+			if ((id !== 'va2b.raw.css') && (id !== 'va2b.raw.js')) {
+				if (emi(id)) { va2.rm(id) }
+				let tag = arr.metadata.tag
+				let ext = ''
+				if (arr.metadata.root==='body') { ext = '\n' }
+				va2.mk(`<${tag} id='${id}'>\n</${tag}>\n${ext}`, arr.metadata.root)
+				va2b.load(id)
+			}
 		}
 		va2b.store()
+		va2.deploy.css(va2b.data['va2b.raw.css'])
+		va2.deploy.js(va2b.data['va2b.raw.js'])
 	},
 
 	// Event functionality logic
@@ -562,6 +644,8 @@ const va2b = {
 		}
 		va2.wipe('va2menu'); va2.show('va2menu', 1); va2.show('va2esc')
 		va2.mk(`<va2obj class='center' onclick="va2b.edit()" style='border:none'><p style='color:var(--va2a)'>Create new</p></va2obj>`, 'va2menu')
+		va2.mk(`<hr>`, 'va2menu')
+		va2.mk(`<va2obj class='center' onclick="va2b.editRaw()" style='border:none'><p style='color:var(--va2a)'>Edit raw</p></va2obj>`, 'va2menu')
 		/// ...And add found objects to it
 		for (const [i,v] of Object.entries(va2.box)) {
 			if (v) {
@@ -615,44 +699,61 @@ const va2b = {
 		}
 	},
 
-	fields: [
-		'zIndex', 'display', 'position', 'width', 'height', 'margin', 'padding', 'float', 'left', 'right', 'top', 'bottom',
-		'color', 'backgroundColor', 'borderRadius', 'border', 'boxShadow', 'outline', 'minWidth', 'maxWidth',
+	fields: [ //'Left', 'Right', 'Top', 'Bottom',
+		'zIndex', 'display', 'position', 'width', 'height', 'margin', 'marginLeft', 'marginRight', 'marginTop',
+		'marginBottom', 'padding', 'paddingLeft', 'paddingRight', 'paddingTop', 'paddingBottom',
+		'float', 'left', 'right', 'top', 'bottom', 'color', 'backgroundColor', 'borderRadius', 'border',
+		'borderLeft', 'borderRight', 'borderTop', 'borderBottom', 'boxShadow', 'outline', 'minWidth', 'maxWidth',
 		'minHeight', 'maxHeight', 'font', 'fontFamily', 'fontSize', 'fontWeight', 'fontStyle', 'textAlign',
 		'lineHeight', 'letterSpacing', 'textIndent', 'textDecoration', 'textShadow', 'whiteSpace', 'wordWrap',
-		'backgroundImage', 'backgroundPosition', 'backgroundRepeat',
+		'opacity', 'backgroundImage', 'backgroundPosition', 'backgroundRepeat', 'order',
 		'flex', 'flexWrap', 'flexDirection', 'overflow', 'overflowX', 'overflowY', 'overflowWrap',
-		'justifyContent', 'alignItems', 'transform', 'filter', 'animation', 'transition',
+		'justifyContent', 'alignItems', 'transform', 'filter', 'backdropFilter', 'animation', 'transition', 'visibility',
+		'mixBlendMode',
 	],
 	funcs: ['onclick', 'onmouseover', 'onmouseout', 'oninput', 'onfocusout'],
 	template: `
-	<va2obj id='va2esc' class='fill' onclick="va2.hide('va2esc', 'va2menu', 'va2editor')"></va2obj>
+	<va2obj id='va2esc' class='fill' onclick="va2.hide('va2esc', 'va2menu', 'va2editor', 'va2raw')"></va2obj>
 	<va2obj id='va2menu' class='center va2x'></va2obj>
 	<va2obj id='va2editor' class='center bounded'>
 		<va2obj id='va2head' class='center'></va2obj>
 		<va2obj id='va2fields' class='center bounded'></va2obj>
 		<va2obj id='va2foot' class='center'></va2obj>
 	</va2obj>
+	<va2obj id='va2raw' class='bounded'>
+		<textarea id='va2rawHTML'></textarea>
+		<textarea id='va2rawCSS'></textarea>
+		<textarea id='va2rawJS'></textarea>
+		<va2obj class='center' style='top: 0; box-shadow: 2vh 0 3vh #0007'>
+			<p onclick="va2.hide('va2rawCSS', 'va2rawJS'); va2.show('va2rawHTML')" style='border-right: 2px solid #333'>HTML</p>
+			<p onclick="va2.hide('va2rawHTML', 'va2rawJS'); va2.show('va2rawCSS')">CSS</p>
+			<p onclick="va2.hide('va2rawHTML', 'va2rawCSS'); va2.show('va2rawJS')" style='border-left: 2px solid #333'>JS</p>
+		</va2obj>
+		<va2obj class='center' style='bottom: 0; box-shadow: -2vh 0 3vh #0007'>
+			<p onclick='va2b.saveRaw()'>Save</p>
+		</va2obj>
+	</va2obj>
 
 	<style>
 	@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400&display=swap');
-	.center { position: relative; display: flex; flex-wrap: wrap; justify-content: center; align-items: flex-start; transition: 0.2s }
-	.center p, h1, h2, h3, h4 { position: relative; margin: auto; text-align: center; overflow-wrap: break-word; max-width: 100%; max-height: 100% }
+	.center { position: relative; display: flex; flex-wrap: wrap; justify-content: center; align-items: flex-start; transition: 0.1s }
+	.center p { position: relative; margin: auto; text-align: center; overflow-wrap: break-word; max-width: 100%; max-height: 100% }
 	.fill { position: absolute; width: 100%; height: 100%; left: 0; top: 0; margin: 0 }
 	.nosel { -webkit-touch-callout: none; -webkit-user-select: none; -khtml-user-select: none; -moz-user-select: none; -ms-user-select: none; user-select: none; user-drag: none; -webkit-user-drag: none }
 	.bounded { overflow: hidden; overscroll-behavior-x: none; overscroll-behavior-y: none; }
+	textarea { white-space: nowrap; border: none; outline: none; color: inherit; font: inherit; resize: none }
 
 	va2obj { position: relative; margin: auto; font: 400 calc(0.1vw + 1.7vh) 'Noto Sans JP' }
 	#va2switch { color: #fff; z-index: 999; width: calc(6vh + 3vmin); height: calc(6vh + 3vmin); position: absolute; top: 3vh; right: 3vh; border-radius: 1.5vh; background: #333; border: 1px solid #000 }
 	#va2switch va2obj { display: block; margin: auto; font-size: calc(1.8vh + 1vmin) }
 	#va2switch:hover { background: #444; box-shadow: 0 0 20px var(--va2b) }
 	#va2box { z-index: 998; color: #ddd; background: #0005 }
-	#va2esc { background: #0005 }
+	#va2esc { background: #0005; position: fixed }
 	#va2menu { background: #222; border: 1px solid #444; border-radius: 0.5em; min-width: 25vmin; max-width: 80vmin; max-height: 60vh; margin: auto; padding: 0.4em 0.6em; overflow-y: scroll }
 	#va2menu hr { width: 90%; border: none; border-top: 1px solid #333; margin: 0 }
 	#va2menu va2obj { width: 100%; min-height: 2em; border-radius: 0.3em; margin: 2px 0 }
 	#va2menu va2obj:hover { background: #333 }
-	#va2editor { width: 90vmin; height: 75vh; border: 3px solid #222; border-radius: 1.5vh; background: #333; color: #ccc; transform: translateY(2vh) }
+	#va2editor, #va2raw { width: 90vmin; height: 75vh; border: 3px solid #222; border-radius: 1.5vh; background: #333; color: #ccc; transform: translateY(2vh) }
 	#va2head { width: 100%; height: 20%; background: #444; border-bottom: 2px solid #222; box-shadow: 5px 0 20px #0005; z-index: 2 }
 	#va2head va2F { width: 90%; height: 1.3em; margin: auto; border-radius: 0; background: none; border: none }
 	#va2head va2F div { min-height: 100%; max-height: 100%; width: 30%; background: #333; border-radius: 1vh }
@@ -663,10 +764,37 @@ const va2b = {
 	va2F div { all: unset; width: 45%; min-height: 4vh; background: #444 }
 	va2F div p { all: unset; margin: auto; width: 90%; padding: 2px 0; line-height: 1 }
 	va2F input { all: unset; width: 55%; height: 1.3em; margin: auto; text-indent: 0.7em }
+	va2F:hover div { color: var(--a); background: #393939 }
 	va2btn { height: 1.2em; margin: auto; padding: 0.3em 1em; border: 2px solid var(--va2b); color: var(--va2a); border-radius: 1vh }
 	va2btn p { margin: auto; transform: translateY(-2px) }
 	va2btn:hover { border: 2px solid #0000; background: var(--va2b); color: #fff }
-	</style>`
+	#va2raw { display: none }
+	#va2raw va2obj, #va2raw textarea { position: absolute }
+	#va2raw va2obj { width: 100%; height: 2.5em; background: #444; display: flex; left: 0 }
+	#va2raw textarea { width: 94%; height: calc(100% - 7em); margin: 3.5em 3%; background: none }
+	#va2raw p { flex: 1; padding: 0.5em }
+	#va2raw p:hover { background: #555 }
+	#va2rawCSS, #va2rawJS { display: none }
+	</style>`,
+
+userPresetTemp: `va2b.user = {
+	sessionId: va2.uid('va2env.'),
+	storage: 'local',
+	preset: {
+		zIndex: '0', background: 'black',
+		width: '20vh', height: '20vh',
+		margin: 'auto',
+		borderRadius: '2vh',
+	},
+}`,
 }
 
-va2b.deploy()
+document.body.onload = function() {
+	if (!CSS.supports('height: 100dvh')) {
+		document.documentElement.style.setProperty('--deviceHeight', window.innerHeight+'px')
+	}
+	if (typeof twemoji !== 'undefined') {
+		twemoji.parse(document.documentElement, {folder: 'svg', ext: '.svg'})
+	}
+	va2b.deploy()
+}

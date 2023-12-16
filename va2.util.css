@@ -1,0 +1,340 @@
+/*
+|	This code is licensed under VPCDP-1.0 - [https://github.com/eimirein/VPCDP]
+|			by Eimi Rein (霊音・永旻) - @eimirein - [https://github.com/eimirein]
+*/
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@100..700&family=Roboto+Slab:wght@100..700&family=Noto+Sans+JP:wght@100..700&family=Inconsolata:wght@200..700&family=Cinzel&family=Dancing+Script&family=Pixelify+Sans&family=Smooch+Sans:wght@300..700&display=swap');
+/*
+Font keywords:
+	multibase:	Montserrat
+	multiprint:	Roboto Slab
+	basic:		Noto Sans JP
+	code:		Inconsolata
+	fantasy:		Cinzel
+	fancy:		Dancing Script
+	pixels:		Pixelify Sans
+	magazine:	Smooch Sans
+
+font-variation-settings:
+	opsz = font-optical-sizing
+	wdth = font-weight
+	wght = font-stretch
+	ital = font-style
+	slnt = font-style: oblique 0deg 0deg
+*/
+/*--- Core meta-styles ---*/
+:root {
+	--deviceHeight: 100dvh;
+	/* Color accent */
+	--a: #fb6;
+	--aSub: #a75;
+	--aLink: #ccc;
+	--aBg: #222;
+	--aBgSub: #fffd;
+	--aBgItem: #333;
+	--aBgHov: #333;
+	--aFont: #eee;
+	--aFontSub: #ccc;
+	--aFontHov: #fff;
+	--aFontBg: #fff;
+	--aBorder: #444;
+	--aBody: #000;
+	--aSel: #fb6;
+	/* Font styles */
+	--font: 'Noto Sans JP';
+	--fontSub: 'Montserrat';
+	--fontPrint: 'Roboto Slab';
+	--fontStory: 'Cinzel';
+	--fontCode: 'Inconsolata';
+	--fontFancy: 'Dancing Script';
+	--fontPixel: 'Pixelify Sans';
+	--fontBlog: 'Smooch Sans';
+
+	--fTiny: 400 calc(0.075vw + 1vh) var(--font);
+	--fSmall: 400 calc(0.1vw + 1.3vh) var(--font);
+	--fLess: 400 calc(0.11vw + 1.5vh) var(--font);
+	--fMain: 400 calc(0.15vw + 1.8vh) var(--font);
+	--fBold: 600 calc(0.15vw + 1.8vh) var(--font);
+
+	--fSub: 300 calc(0.24vw + 1.9vh) var(--font);
+	--fTopic: 400 calc(0.2vw + 2.1vh) var(--font);
+	--fTitle: 500 calc(0.3vw + 2.6vh) var(--font);
+	--fSect: 600 calc(0.35vw + 3.2vh) var(--font);
+
+	--fBig: 600 calc(0.4vw + 4vh) var(--font);
+	--fHuge: 700 calc(0.5vw + 5vh) var(--font);
+	/* Other globals */
+	--rounding: calc(1.5vh + 2vmin);
+	--border: none;
+	--blockDistance: 0;
+	--blockHeight: 100%;
+	--blockWidth: 100%;
+	--bgFront: none;
+	--bgBack: none;
+}
+::-webkit-scrollbar { width: 0; height: 0; background: #0000 }
+html { scrollbar-width: none; scroll-padding-top: 10vmin }
+sel { color: var(--aSel) }
+::selection { color: var(--aSel) }
+::-moz-selection { color: var(--aSel) }
+body {
+	font: var(--fMain); line-height: 1.2;
+	display: flex; flex-wrap: wrap;
+	justify-content: center;
+	align-items: flex-start;
+	height: var(--deviceHeight);
+	width: 100vw; color: var(--aFont);
+	background-color: var(--aBody);
+	background-size: cover;
+	background-position: center;
+	background-repeat: no-repeat;
+	backface-visibility: hidden; z-index: -10;
+	position: relative; margin: 0; padding: 0;
+	overflow: hidden; overflow-y: scroll;
+	overscroll-behavior-x: none;
+}
+
+header, footer {
+	width: 100%; min-height: 10%;
+	height: 10%; z-index: 1
+}
+footer { background: var(--aBgSub) }
+div { position: relative; z-index: 0 }
+h1, h2, h3, h4 { display: block; margin: 0 }
+h1 { font: var(--fSect) }
+h2 { font: var(--fTitle) }
+h3 { font: var(--fTopic) }
+h4 { font: var(--fSub) }
+iframe { border: none; outline: none; border-radius: var(--rounding) }
+input, textarea { white-space: nowrap; border: none; outline: none; color: inherit; font: inherit; resize: none }
+img { pointer-events: none }
+a { display: block; cursor: pointer }
+b { font-weight: 600; display: inline }
+c { color: var(--a); display: inline }
+bg { all: unset; display: block; position: absolute }
+img.emoji { width: 1em; pointer-events: none }
+
+/*--- Global meta-styles ---*/
+.ita { font-style: italic }
+.obl { font-style: oblique }
+.lt { text-decoration: line-through }
+.ul { text-decoration: underline }
+.uc { text-transform: uppercase }
+.lc { text-transform: lowercase }
+.cap { text-transform: capitalize }
+.bold { font-weight: 600 }
+/* Google material symbols */
+.material-symbols-outlined {
+	font-variation-settings:
+	'FILL' 0,
+	'wght' 300,
+	'GRAD' 0,
+	'opsz' 24;
+}
+.sym { font-size: calc(0.4vw + 4vh); font-family: 'Noto Sans JP' }
+.sym span { font-size: calc(0.4vw + 4vh); transform: translateY(2px) }
+.sym:hover { color: var(--aFontHov) }
+/* Centerize item */
+.i { margin: auto }
+/* Accent: front layer part */
+.a-f {
+	color: var(--aFont);
+	background: var(--bgFront);
+	background-color: var(--aBg);
+	border: var(--border) solid var(--aBorder);
+	border-radius: var(--rounding);
+	font-family: var(--font)
+}
+/* Accent: back layer part */
+.a-b {
+	color: var(--aFontSub);
+	background: var(--bgBack);
+	background-color: var(--aBgSub);
+	border: var(--border) solid var(--aBorderSub);
+	border-radius: var(--rounding);
+	font-family: var(--fontSub)
+}
+/* No interaction */
+.nil { pointer-events: none }
+/* No selection */
+.nosel, .ref, a, img, video, span {
+	-webkit-touch-callout: none;
+	-webkit-user-select: none;
+	-khtml-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+	user-drag: none; 
+	-webkit-user-drag: none;
+}
+/* Absolute position */
+.abs, .center .abs { position: absolute; margin: none }
+/* Element in text */
+.inline {
+	float: left; display: inline-block;
+	width: 150px; height: 150px;
+	margin: 0.75em
+}
+.inlineR {
+	float: right; display: inline-block;
+	width: 250px; height: 250px;
+	margin: 0.75em
+}
+/* Flex */
+.f { display: flex }
+/* Flex: vertical */
+.fv { display: flex; flex-direction: column }
+/* Flex: line break */
+.break { float: left; width: 100%; height: 1px; margin: 0; display: block }
+/* Flex: center all */
+.center { position: relative; display: flex; flex-wrap: wrap; justify-content: center; align-items: flex-start; transition: 0.2s }
+.center p, .center h1, .center h2, .center h3, .center h4, .center h5, .center h6, .center img, .center link, .center a {
+	position: relative; margin: auto;
+	text-align: center; white-space: pre-line;
+	overflow-wrap: break-word;
+}
+/* One section of the page */
+.block {
+	margin: var(--blockDistance);
+	height: var(--blockHeight);
+	width: var(--blockWidth);
+}
+/* No overflow */
+.bounded {
+	overflow: hidden;
+	overscroll-behavior-x: none;
+	overscroll-behavior-y: none;
+}
+/* Fill the container */
+.fill { display: block; position: absolute; width: 100%; height: 100%; left: 0; top: 0; margin: 0 }
+.w { width: 100%; margin-left: 0; margin-right: 0 }
+.h { height: 100%; margin-top: 0; margin-bottom: 0 }
+/* Background: cover(fill)/contain(cont) */
+.bgfill {
+	background-size: cover;
+	background-position: center;
+	background-repeat: no-repeat;
+}
+.bgcont {
+	background-size: contain;
+	background-position: center;
+	background-repeat: no-repeat;
+}
+/* A reference (link) */
+.ref {
+	font-weight: 500; color: var(--aLink);
+	text-decoration: none; cursor: pointer;
+	transition: color 0.2s
+}
+.ref:hover { color: var(--a) }
+/* A standalone fragment. */
+.frag { display: block; position: absolute }
+/* Plain text */
+.text {
+	display: inline;
+	font: inherit; color: inherit;
+	text-decoration: none;
+	border: none; outline: none;
+	margin: 0; padding: 0
+}
+/* Input field */
+.input {
+	border: none; outline: none;
+	resize: none; text-indent: 0px;
+	background: var(--aBgItem);
+	padding: 1em; height: 1em;
+	color: inherit; font: var(--fMain);
+	width: calc(85% - 2em);
+	border-radius: var(--rounding);
+	display: block; margin: 1em auto;
+}
+.input:hover { filter: brightness(1.1) }
+/* Checkbox */
+.chbox {
+	display: inline-block;
+	border-radius: 50%;
+	width: 3vh; height: 3vh;
+	min-width: 3vh; min-height: 3vh;
+	margin: 1em 1em 1em 0;
+	border: 2px solid var(--aBorder);
+	transition: 0.3s;
+}
+input:checked ~.chbox { background: var(--aSub) }
+/* Buttons */
+.btn, .center .btn {
+	background: var(--aSub);
+	padding: 0.5em 1.5em;
+	font: var(--fTitle); color: var(--aFont);
+	margin: 3vh auto; transition: 0.2s;
+	border-radius: var(--rounding);
+	border: 2px solid #0000;
+}
+.btn:hover {
+	color: var(--aFontHov);
+	background: var(--aBgHov);
+	border: 2px solid var(--aFontHov);
+}
+/* va2.slide() */
+.slide { display: block }
+.slideN { animation: slideL 0.3s }
+.slideP { animation: slideR 0.3s }
+.slided { display: none; animation: none }
+
+/* animations */
+@keyframes fadeout { 0% { opacity: 0 } 100% { opacity: 1 } }
+@keyframes fadein { 0% { opacity: 1 } 100% { opacity: 0 } }
+@keyframes unfoldR {
+	0% { transform-origin: 0% 0%; transform: scaleX(0) }
+	100% { transform-origin: 0% 0%; transform: scaleX(1) }
+}
+@keyframes unfoldL {
+	0% { transform-origin: 100% 0%; transform: scaleX(0) }
+	100% { transform-origin: 100% 0%; transform: scaleX(1) }
+}
+@keyframes unfoldD {
+	0% { transform-origin: 0% 0%; transform: scaleY(0) }
+	100% { transform-origin: 0% 0%; transform: scaleY(1) }
+}
+@keyframes unfoldU {
+	0% { transform-origin: 0% 100%; transform: scaleY(0) }
+	100% { transform-origin: 0% 100%; transform: scaleY(1) }
+}
+@keyframes unfoldX {
+	0% { transform-origin: 50% 50%; transform: scaleX(0) }
+	100% { transform-origin: 50% 50%; transform: scaleX(1) }
+}
+@keyframes unfoldY {
+	0% { transform-origin: 50% 50%; transform: scaleX(0) }
+	100% { transform-origin: 50% 50%; transform: scaleX(1) }
+}
+@keyframes foldR { 100% { transform-origin: 0% 0%; transform: scaleX(0) } }
+@keyframes foldL { 100% { transform-origin: 100% 0%; transform: scaleX(0) } }
+@keyframes foldD { 100% { transform-origin: 0% 0%; transform: scaleY(0) } }
+@keyframes foldU { 100% { transform-origin: 0% 100%; transform: scaleY(0) } }
+@keyframes foldX { 100% { transform-origin: 50% 50%; transform: scaleX(0) } }
+@keyframes foldY { 100% { transform-origin: 50% 50%; transform: scaleY(0) } }
+@keyframes shrink { 0% { transform: scale(1) } 100% { transform: scale(0) } }
+@keyframes expand { 0% { transform: scale(0) } 100% { transform: scale(1) } }
+@keyframes slideL { 0% { transform: translateX(100%) } }
+@keyframes slideR { 0% { transform: translateX(-100%) } }
+@keyframes rotL { 100% { transform: rotate(-360deg) } }
+@keyframes rotR { 100% { transform: rotate(360deg) } }
+@keyframes fall { 0% { opacity: 0; transform: translateY(-20vmin) scaleY(0) } }
+@keyframes pulse { 50% { filter: blur(6vmin) } }
+@keyframes popUp {
+	0% { transform: scale(0) }
+	50% { transform: scale(1.05) }
+	75% { transform: scale(0.95) }
+	100% { transform: scale(1) }
+}
+@keyframes textRBShift {
+	0%, 100% { text-shadow: 0px 0px #f2a5 }
+	25% { text-shadow: 2px 1px #2af5 }
+	50% { text-shadow: 0px -1px #2fa5 }
+	75% { text-shadow: -2px 1px #f225 }
+}
+@keyframes boxRBShift {
+	0%, 100% { box-shadow: 0px 0px #f2a5 }
+	25% { box-shadow: 3px 1px #2af5 }
+	50% { box-shadow: 1px -2px #22f5 }
+	75% { box-shadow: -1px 3px #f225 }
+}
