@@ -415,8 +415,10 @@ const va2b = {
 		sessionId: va2.uid('va2env.'),
 		storage: 'local',
 		preset: {
-			zIndex: '0', background: 'black',
-			width: '20vh', height: '20vh',
+			zIndex: '0',
+			backgroundColor: 'black',
+			width: '80vmin',
+			height: '20vh',
 			margin: 'auto',
 			borderRadius: '2vh',
 		},
@@ -702,7 +704,7 @@ const va2b = {
 	fields: [ //'Left', 'Right', 'Top', 'Bottom',
 		'zIndex', 'display', 'position', 'width', 'height', 'margin', 'marginLeft', 'marginRight', 'marginTop',
 		'marginBottom', 'padding', 'paddingLeft', 'paddingRight', 'paddingTop', 'paddingBottom',
-		'float', 'left', 'right', 'top', 'bottom', 'color', 'backgroundColor', 'borderRadius', 'border',
+		'float', 'left', 'right', 'top', 'bottom', 'color', 'background', 'backgroundColor', 'borderRadius', 'border',
 		'borderLeft', 'borderRight', 'borderTop', 'borderBottom', 'boxShadow', 'outline', 'minWidth', 'maxWidth',
 		'minHeight', 'maxHeight', 'font', 'fontFamily', 'fontSize', 'fontWeight', 'fontStyle', 'textAlign',
 		'lineHeight', 'letterSpacing', 'textIndent', 'textDecoration', 'textShadow', 'whiteSpace', 'wordWrap',
@@ -720,7 +722,7 @@ const va2b = {
 		<va2obj id='va2fields' class='center bounded'></va2obj>
 		<va2obj id='va2foot' class='center'></va2obj>
 	</va2obj>
-	<va2obj id='va2raw' class='bounded'>
+	<va2obj id='va2raw' class='bounded' spellcheck='false'>
 		<textarea id='va2rawHTML'></textarea>
 		<textarea id='va2rawCSS'></textarea>
 		<textarea id='va2rawJS'></textarea>
@@ -781,8 +783,10 @@ userPresetTemp: `va2b.user = {
 	sessionId: va2.uid('va2env.'),
 	storage: 'local',
 	preset: {
-		zIndex: '0', background: 'black',
-		width: '20vh', height: '20vh',
+		zIndex: '0',
+  		backgroundColor: 'black',
+		width: '80vmin',
+  		height: '20vh',
 		margin: 'auto',
 		borderRadius: '2vh',
 	},
