@@ -718,7 +718,7 @@ const va2b = {
 	funcs: ['onclick', 'onmouseover', 'onmouseout', 'oninput', 'onfocusout'],
 	template: `
 	<va2obj id='va2esc' class='fill' onclick="va2.hide('va2esc', 'va2menu', 'va2editor', 'va2raw')">
-		<va2obj id='va2b-stats' style='position: absolute; top: 0.7em; left: 0.7em'></va2obj>
+		<va2obj id='va2b-stats' style='position: absolute; top: 0.7em; left: 0.7em; opacity: 0.6'></va2obj>
 	</va2obj>
 	<va2obj id='va2menu' class='center va2x'></va2obj>
 	<va2obj id='va2editor' class='center bounded'>
