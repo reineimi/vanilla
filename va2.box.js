@@ -418,7 +418,7 @@ const va2b = {
 			zIndex: '0',
 			backgroundColor: 'black',
 			width: '80vmin',
-			height: '20vh',
+			height: '20vmin',
 			margin: 'auto',
 			borderRadius: '2vh',
 		},
@@ -460,6 +460,8 @@ const va2b = {
 		va2b.data['va2b.raw.js'] = emi('va2rawJS').value
 		va2b.store()
 	},
+	// Replace Spaces With Tabs
+	RSWT: function(id) { emi(id).value = emi(id).value.replace(/  /gm, '	') },
 	// Create a new element
 	make: function(_id, _root, _tag) {
 		let id = (_id || va2.uid())
@@ -489,7 +491,7 @@ const va2b = {
 		va2b.data[val] = va2b.data[id]
 		delete va2b.data[id]
 		emi(id).id = val
-		emi(id+'-text').id = val+'-text'
+		if (emi(id+'-text')) { emi(id+'-text').id = val+'-text' }
 		va2b.save(val); va2b.gen(val); va2b.store()
 	},
 	// Generate attribute fields
@@ -702,11 +704,11 @@ const va2b = {
 	},
 
 	fields: [ //'Left', 'Right', 'Top', 'Bottom',
-		'zIndex', 'display', 'position', 'width', 'height', 'margin', 'marginLeft', 'marginRight', 'marginTop',
-		'marginBottom', 'padding', 'paddingLeft', 'paddingRight', 'paddingTop', 'paddingBottom',
-		'float', 'left', 'right', 'top', 'bottom', 'color', 'background', 'backgroundColor', 'borderRadius', 'border',
-		'borderLeft', 'borderRight', 'borderTop', 'borderBottom', 'boxShadow', 'outline', 'minWidth', 'maxWidth',
-		'minHeight', 'maxHeight', 'font', 'fontFamily', 'fontSize', 'fontWeight', 'fontStyle', 'textAlign',
+		'zIndex', 'display', 'position', 'width', 'height', 'minWidth', 'maxWidth', 'minHeight', 'maxHeight',
+		'float', 'left', 'right', 'top', 'bottom', 'margin', 'marginLeft', 'marginRight', 'marginTop', 'marginBottom',
+		'color', 'background', 'backgroundColor', 'padding', 'paddingLeft', 'paddingRight', 'paddingTop',
+		'paddingBottom', 'borderRadius', 'border', 'borderLeft', 'borderRight', 'borderTop', 'borderBottom',
+		'boxShadow', 'outline', 'font', 'fontFamily', 'fontSize', 'fontWeight', 'fontStyle', 'textAlign',
 		'lineHeight', 'letterSpacing', 'textIndent', 'textDecoration', 'textShadow', 'whiteSpace', 'wordWrap',
 		'opacity', 'backgroundImage', 'backgroundPosition', 'backgroundRepeat', 'order',
 		'flex', 'flexWrap', 'flexDirection', 'overflow', 'overflowX', 'overflowY', 'overflowWrap',
@@ -723,9 +725,9 @@ const va2b = {
 		<va2obj id='va2foot' class='center'></va2obj>
 	</va2obj>
 	<va2obj id='va2raw' class='bounded' spellcheck='false'>
-		<textarea id='va2rawHTML'></textarea>
-		<textarea id='va2rawCSS'></textarea>
-		<textarea id='va2rawJS'></textarea>
+		<textarea id='va2rawHTML' onfocusout='va2b.RSWT(this.id)'></textarea>
+		<textarea id='va2rawCSS' onfocusout='va2b.RSWT(this.id)'></textarea>
+		<textarea id='va2rawJS' onfocusout='va2b.RSWT(this.id)'></textarea>
 		<va2obj class='center' style='top: 0; box-shadow: 2vh 0 3vh #0007'>
 			<p onclick="va2.hide('va2rawCSS', 'va2rawJS'); va2.show('va2rawHTML')" style='border-right: 2px solid #333'>HTML</p>
 			<p onclick="va2.hide('va2rawHTML', 'va2rawJS'); va2.show('va2rawCSS')">CSS</p>
@@ -766,7 +768,7 @@ const va2b = {
 	va2F div { all: unset; width: 45%; min-height: 4vh; background: #444 }
 	va2F div p { all: unset; margin: auto; width: 90%; padding: 2px 0; line-height: 1 }
 	va2F input { all: unset; width: 55%; height: 1.3em; margin: auto; text-indent: 0.7em }
-	va2F:hover div { color: var(--a); background: #393939 }
+	va2F:hover div { color: var(--va2a); background: #393939 }
 	va2btn { height: 1.2em; margin: auto; padding: 0.3em 1em; border: 2px solid var(--va2b); color: var(--va2a); border-radius: 1vh }
 	va2btn p { margin: auto; transform: translateY(-2px) }
 	va2btn:hover { border: 2px solid #0000; background: var(--va2b); color: #fff }
@@ -775,7 +777,7 @@ const va2b = {
 	#va2raw va2obj { width: 100%; height: 2.5em; background: #444; display: flex; left: 0 }
 	#va2raw textarea { width: 94%; height: calc(100% - 7em); margin: 3.5em 3%; background: none }
 	#va2raw p { flex: 1; padding: 0.5em }
-	#va2raw p:hover { background: #555 }
+	#va2raw p:hover { background: #555; color: var(--va2a) }
 	#va2rawCSS, #va2rawJS { display: none }
 	</style>`,
 
@@ -784,9 +786,9 @@ userPresetTemp: `va2b.user = {
 	storage: 'local',
 	preset: {
 		zIndex: '0',
-  		backgroundColor: 'black',
+		backgroundColor: 'black',
 		width: '80vmin',
-  		height: '20vh',
+		height: '20vmin',
 		margin: 'auto',
 		borderRadius: '2vh',
 	},
