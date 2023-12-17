@@ -766,7 +766,7 @@ const va2b = {
 	#va2head va2F input { height: 100%; width: calc(70% - 5px); margin-left: 5px; background: #555; color: #fff; border-radius: 1vh }
 	#va2foot { width: 100%; height: 10%; border-top: 2px solid #222; box-shadow: -5px 0 20px #000a; z-index: 2 }
 	#va2fields { width: 100%; height: 70%; overflow-y: scroll; z-index: 1 }
-	va2F { width: 80%; margin-top: 1em; border-radius: 1.5vh; border: 2px solid #222; overflow: hidden; background: #222 }
+	va2F { width: 80%; margin-top: 0.5em; border-radius: 1.5vh; border: 2px solid #222; overflow: hidden; background: #222 }
 	va2F div { all: unset; width: 45%; min-height: 4vh; background: #444 }
 	va2F div p { all: unset; margin: auto; width: 90%; padding: 2px 0; line-height: 1 }
 	va2F input { all: unset; width: 55%; height: 1.3em; margin: auto; text-indent: 0.7em }
