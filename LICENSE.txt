@@ -32,7 +32,6 @@ LIMITATIONS
 🚫 Warranty
 🚫 Patent use
 🚫 Trademark use
-🚫 Approval required
 
 - - - - - -
 
@@ -112,8 +111,8 @@ content of this product is the licensed code.
 
 2. COPYRIGHT NOTICE
 When copying, modifying, replicating or sharing the 
-licensed code, the existing copyright notices inside 
-of it must be left untouched.
+licensed code, the existing copyright notices (usually
+in form of comments) inside of it must be left untouched.
 
 3. AUTHOR MENTION
 When publishing a new product that includes the licensed 
@@ -122,13 +121,14 @@ the new product (usually in Credits or Developers section).
 
 4. DISCLOSE SOURCE
 The new product that includes the licensed code must be 
-unencrypted, free and available to everyone, without any 
-built-in paid content and interactions 
-(except for "Support Me").
+unencrypted, free and available to everyone, except for
+built-in paid content that does not include the licensed
+code.
 
 5. SAME LICENSE
 The new product that contains the licensed code must 
-include this license.
+include this license for the files including the mentioned
+code.
 
 6. STATE CHANGES
 When modifying or replicating the licensed code, all the 
@@ -140,22 +140,14 @@ Before publishing a new product that contains the licensed
 code, notify the copyright owner via e-mail mentioned 
 in "SECTION 0".
 
-8. COMMERCIAL AGREEMENT
-Before publishing a new product that contains the licensed 
-code, wait for agreement notice from the copyright owner. 
-The notice will be sent to the e-mail used in "7. NOTIFY 
-THE COPYRIGHT OWNER".
-This resolution was added with purpose of decreasing 
-the amount of harmful productions.
-
-9. NO TRADEMARK AND PATENT USE
+8. NO TRADEMARK AND PATENT USE
 No patent and trademark use is granted. This product is 
 not supposed to be duplicated. The code it provides to 
 user is shared with purpose of either contributions to 
 this product, improvement in existing or newly created 
 products, or creation of brand new inventions.
 
-10. NO WARRANTY AND LIABILITY
+9. NO WARRANTY AND LIABILITY
 This product does not provide any warranty programs, and 
 the copyright owner of this product, as well as any of 
 its contributors, does not bear any legal liability.
