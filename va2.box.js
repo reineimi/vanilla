@@ -673,6 +673,7 @@ const va2b = {
 		let partB = document.createElement('va2obj')
 		partB.id = 'va2box'
 		partB.className = 'fill center nosel'
+		partB.style.position = 'fixed'
 		partB.innerHTML = va2b_temp.box
 		document.documentElement.appendChild(partB)
 
@@ -755,7 +756,7 @@ const va2b_temp = {
 textarea { white-space: nowrap; border: none; outline: none; color: inherit; font: inherit; resize: none }
 
 va2obj { position: relative; margin: auto; font: 400 calc(0.1vw + 1.7vh) 'Noto Sans JP' }
-#va2switch { color: #fff; z-index: 999; width: calc(6vh + 3vmin); height: calc(6vh + 3vmin); position: absolute; top: 3vh; right: 3vh; border-radius: 1.5vh; background: #333; border: 1px solid #000 }
+#va2switch { color: #fff; z-index: 999; width: calc(6vh + 3vmin); height: calc(6vh + 3vmin); position: absolute; top: 3vh; right: 3vh; border-radius: 1.5vh; background: #3337; border: 1px solid #0007 }
 #va2switch va2obj { display: block; margin: auto; font-size: calc(1.8vh + 1vmin) }
 #va2switch:hover { background: #444; box-shadow: 0 0 20px var(--va2b) }
 #va2box { z-index: 998; color: #ddd; background: #0005 }
