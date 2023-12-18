@@ -415,12 +415,10 @@ const va2b = {
 		sessionId: va2.uid('va2env.'),
 		storage: 'local',
 		preset: {
-			zIndex: '0',
 			backgroundColor: 'black',
 			width: '80vmin',
 			height: '20vmin',
 			margin: 'auto',
-			borderRadius: '2vh',
 		},
 	},
 	// Container for all created objects
@@ -442,13 +440,17 @@ const va2b = {
 		va2.hide('va2menu')
 		va2.show('va2raw')
 		emi('va2rawHTML').value = document.body.innerHTML.replace(/^\n/gm, '')
+
 		if (va2b.data['va2b.raw.css']) {
 			emi('va2rawCSS').value = va2b.data['va2b.raw.css']
+		} else {
+			emi('va2rawCSS').value = va2b_temp.init_css
 		}
+
 		if (va2b.data['va2b.raw.js']) {
 			emi('va2rawJS').value = va2b.data['va2b.raw.js']
 		} else {
-			emi('va2rawJS').value = va2b.userPresetTemp
+			emi('va2rawJS').value = va2b_temp.init_js
 		}
 	},
 	saveRaw: function() {
@@ -671,7 +673,7 @@ const va2b = {
 		let partB = document.createElement('va2obj')
 		partB.id = 'va2box'
 		partB.className = 'fill center nosel'
-		partB.innerHTML = va2b.template
+		partB.innerHTML = va2b_temp.box
 		document.documentElement.appendChild(partB)
 
 		va2.css('va2a', '#fb6'); va2.css('va2b', '#a75')
@@ -716,84 +718,122 @@ const va2b = {
 		'mixBlendMode',
 	],
 	funcs: ['onclick', 'onmouseover', 'onmouseout', 'oninput', 'onfocusout'],
-	template: `
-	<va2obj id='va2esc' class='fill' onclick="va2.hide('va2esc', 'va2menu', 'va2editor', 'va2raw')">
-		<va2obj id='va2b-stats' style='position: absolute; top: 0.7em; left: 0.7em; opacity: 0.6'></va2obj>
-	</va2obj>
-	<va2obj id='va2menu' class='center va2x'></va2obj>
-	<va2obj id='va2editor' class='center bounded'>
-		<va2obj id='va2head' class='center'></va2obj>
-		<va2obj id='va2fields' class='center bounded'></va2obj>
-		<va2obj id='va2foot' class='center'></va2obj>
-	</va2obj>
-	<va2obj id='va2raw' class='bounded' spellcheck='false'>
-		<textarea id='va2rawHTML' onfocusout='va2b.RSWT(this.id)'></textarea>
-		<textarea id='va2rawCSS' onfocusout='va2b.RSWT(this.id)'></textarea>
-		<textarea id='va2rawJS' onfocusout='va2b.RSWT(this.id)'></textarea>
-		<va2obj class='center' style='top: 0; box-shadow: 2vh 0 3vh #0007'>
-			<p onclick="va2.hide('va2rawCSS', 'va2rawJS'); va2.show('va2rawHTML')" style='border-right: 2px solid #333'>HTML</p>
-			<p onclick="va2.hide('va2rawHTML', 'va2rawJS'); va2.show('va2rawCSS')">CSS</p>
-			<p onclick="va2.hide('va2rawHTML', 'va2rawCSS'); va2.show('va2rawJS')" style='border-left: 2px solid #333'>JS</p>
-		</va2obj>
-		<va2obj class='center' style='bottom: 0; box-shadow: -2vh 0 3vh #0007'>
-			<p onclick='va2b.saveRaw()'>Save</p>
-		</va2obj>
-	</va2obj>
+}
 
-	<style>
-	@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400&display=swap');
-	.center { position: relative; display: flex; flex-wrap: wrap; justify-content: center; align-items: flex-start; transition: 0.1s }
-	.center p { position: relative; margin: auto; text-align: center; overflow-wrap: break-word; max-width: 100%; max-height: 100% }
-	.fill { position: absolute; width: 100%; height: 100%; left: 0; top: 0; margin: 0 }
-	.nosel { -webkit-touch-callout: none; -webkit-user-select: none; -khtml-user-select: none; -moz-user-select: none; -ms-user-select: none; user-select: none; user-drag: none; -webkit-user-drag: none }
-	.bounded { overflow: hidden; overscroll-behavior-x: none; overscroll-behavior-y: none; }
-	textarea { white-space: nowrap; border: none; outline: none; color: inherit; font: inherit; resize: none }
+const va2b_temp = {
+	box: `
+<va2obj id='va2esc' class='fill' onclick="va2.hide('va2esc', 'va2menu', 'va2editor', 'va2raw')">
+	<va2obj id='va2b-stats' style='position: absolute; top: 0.7em; left: 0.7em; opacity: 0.6'></va2obj>
+</va2obj>
+<va2obj id='va2menu' class='center va2x'></va2obj>
+<va2obj id='va2editor' class='center bounded'>
+	<va2obj id='va2head' class='center'></va2obj>
+	<va2obj id='va2fields' class='center bounded'></va2obj>
+	<va2obj id='va2foot' class='center'></va2obj>
+</va2obj>
+<va2obj id='va2raw' class='bounded' spellcheck='false'>
+	<textarea id='va2rawHTML' onfocusout='va2b.RSWT(this.id)'></textarea>
+	<textarea id='va2rawCSS' onfocusout='va2b.RSWT(this.id)'></textarea>
+	<textarea id='va2rawJS' onfocusout='va2b.RSWT(this.id)'></textarea>
+	<va2obj class='center' style='top: 0; box-shadow: 2vh 0 3vh #0007'>
+		<p onclick="va2.hide('va2rawCSS', 'va2rawJS'); va2.show('va2rawHTML')" style='border-right: 2px solid #333'>HTML</p>
+		<p onclick="va2.hide('va2rawHTML', 'va2rawJS'); va2.show('va2rawCSS')">CSS</p>
+		<p onclick="va2.hide('va2rawHTML', 'va2rawCSS'); va2.show('va2rawJS')" style='border-left: 2px solid #333'>JS</p>
+	</va2obj>
+	<va2obj class='center' style='bottom: 0; box-shadow: -2vh 0 3vh #0007'>
+		<p onclick='va2b.saveRaw()'>Save</p>
+	</va2obj>
+</va2obj>
 
-	va2obj { position: relative; margin: auto; font: 400 calc(0.1vw + 1.7vh) 'Noto Sans JP' }
-	#va2switch { color: #fff; z-index: 999; width: calc(6vh + 3vmin); height: calc(6vh + 3vmin); position: absolute; top: 3vh; right: 3vh; border-radius: 1.5vh; background: #333; border: 1px solid #000 }
-	#va2switch va2obj { display: block; margin: auto; font-size: calc(1.8vh + 1vmin) }
-	#va2switch:hover { background: #444; box-shadow: 0 0 20px var(--va2b) }
-	#va2box { z-index: 998; color: #ddd; background: #0005 }
-	#va2esc { background: #0005; position: fixed }
-	#va2menu { background: #222; border: 1px solid #444; border-radius: 0.5em; min-width: 25vmin; max-width: 80vmin; max-height: 60vh; margin: auto; padding: 0.4em 0.6em; overflow-y: scroll }
-	#va2menu hr { width: 90%; border: none; border-top: 1px solid #333; margin: 0 }
-	#va2menu va2obj { width: 100%; min-height: 2em; border-radius: 0.3em; margin: 2px 0 }
-	#va2menu va2obj:hover { background: #333 }
-	#va2editor, #va2raw { width: 90vmin; height: 75vh; border: 3px solid #222; border-radius: 1.5vh; background: #333; color: #ccc; transform: translateY(2vh) }
-	#va2head { width: 100%; height: 20%; background: #444; border-bottom: 2px solid #222; box-shadow: 5px 0 20px #0005; z-index: 2 }
-	#va2head va2F { width: 90%; height: 1.3em; margin: auto; border-radius: 0; background: none; border: none }
-	#va2head va2F div { min-height: 100%; max-height: 100%; width: 30%; background: #333; border-radius: 1vh }
-	#va2head va2F input { height: 100%; width: calc(70% - 5px); margin-left: 5px; background: #555; color: #fff; border-radius: 1vh }
-	#va2foot { width: 100%; height: 10%; border-top: 2px solid #222; box-shadow: -5px 0 20px #000a; z-index: 2 }
-	#va2fields { width: 100%; height: 70%; overflow-y: scroll; z-index: 1 }
-	va2F { width: 80%; margin-top: 0.5em; border-radius: 1.5vh; border: 2px solid #222; overflow: hidden; background: #222 }
-	va2F div { all: unset; width: 45%; min-height: 4vh; background: #444 }
-	va2F div p { all: unset; margin: auto; width: 90%; padding: 2px 0; line-height: 1 }
-	va2F input { all: unset; width: 55%; height: 1.3em; margin: auto; text-indent: 0.7em }
-	va2F:hover div { color: var(--va2a); background: #393939 }
-	va2btn { height: 1.2em; margin: auto; padding: 0.3em 1em; border: 2px solid var(--va2b); color: var(--va2a); border-radius: 1vh }
-	va2btn p { margin: auto; transform: translateY(-2px) }
-	va2btn:hover { border: 2px solid #0000; background: var(--va2b); color: #fff }
-	#va2raw { display: none }
-	#va2raw va2obj, #va2raw textarea { position: absolute }
-	#va2raw va2obj { width: 100%; height: 2.5em; background: #444; display: flex; left: 0 }
-	#va2raw textarea { width: 94%; height: calc(100% - 7em); margin: 3.5em 3%; background: none }
-	#va2raw p { flex: 1; padding: 0.5em }
-	#va2raw p:hover { background: #555; color: var(--va2a) }
-	#va2rawCSS, #va2rawJS { display: none }
-	</style>`,
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400&display=swap');
+.center { position: relative; display: flex; flex-wrap: wrap; justify-content: center; align-items: flex-start; transition: 0.1s }
+.center p { position: relative; margin: auto; text-align: center; overflow-wrap: break-word; max-width: 100%; max-height: 100% }
+.fill { position: absolute; width: 100%; height: 100%; left: 0; top: 0; margin: 0 }
+.nosel { -webkit-touch-callout: none; -webkit-user-select: none; -khtml-user-select: none; -moz-user-select: none; -ms-user-select: none; user-select: none; user-drag: none; -webkit-user-drag: none }
+.bounded { overflow: hidden; overscroll-behavior-x: none; overscroll-behavior-y: none; }
+textarea { white-space: nowrap; border: none; outline: none; color: inherit; font: inherit; resize: none }
 
-userPresetTemp: `va2b.user = {
+va2obj { position: relative; margin: auto; font: 400 calc(0.1vw + 1.7vh) 'Noto Sans JP' }
+#va2switch { color: #fff; z-index: 999; width: calc(6vh + 3vmin); height: calc(6vh + 3vmin); position: absolute; top: 3vh; right: 3vh; border-radius: 1.5vh; background: #333; border: 1px solid #000 }
+#va2switch va2obj { display: block; margin: auto; font-size: calc(1.8vh + 1vmin) }
+#va2switch:hover { background: #444; box-shadow: 0 0 20px var(--va2b) }
+#va2box { z-index: 998; color: #ddd; background: #0005 }
+#va2esc { background: #0005; position: fixed }
+#va2menu { background: #222; border: 1px solid #444; border-radius: 0.5em; min-width: 25vmin; max-width: 80vmin; max-height: 60vh; margin: auto; padding: 0.4em 0.6em; overflow-y: scroll }
+#va2menu hr { width: 90%; border: none; border-top: 1px solid #333; margin: 0 }
+#va2menu va2obj { width: 100%; min-height: 2em; border-radius: 0.3em; margin: 2px 0 }
+#va2menu va2obj:hover { background: #333 }
+#va2editor, #va2raw { width: 90vmin; height: 75vh; border: 3px solid #222; border-radius: 1.5vh; background: #333; color: #ccc; transform: translateY(2vh) }
+#va2head { width: 100%; height: 20%; background: #444; border-bottom: 2px solid #222; box-shadow: 5px 0 20px #0005; z-index: 2 }
+#va2head va2F { width: 90%; height: 1.3em; margin: auto; border-radius: 0; background: none; border: none }
+#va2head va2F div { min-height: 100%; max-height: 100%; width: 30%; background: #333; border-radius: 1vh }
+#va2head va2F input { height: 100%; width: calc(70% - 5px); margin-left: 5px; background: #555; color: #fff; border-radius: 1vh }
+#va2foot { width: 100%; height: 10%; border-top: 2px solid #222; box-shadow: -5px 0 20px #000a; z-index: 2 }
+#va2fields { width: 100%; height: 70%; overflow-y: scroll; z-index: 1 }
+va2F { width: 80%; margin-top: 0.5em; border-radius: 1.5vh; border: 2px solid #222; overflow: hidden; background: #222 }
+va2F div { all: unset; width: 45%; min-height: 4vh; background: #444 }
+va2F div p { all: unset; margin: auto; width: 90%; padding: 2px 0; line-height: 1 }
+va2F input { all: unset; width: 55%; height: 1.3em; margin: auto; text-indent: 0.7em }
+va2F:hover div { color: var(--va2a); background: #393939 }
+va2btn { height: 1.2em; margin: auto; padding: 0.3em 1em; border: 2px solid var(--va2b); color: var(--va2a); border-radius: 1vh }
+va2btn p { margin: auto; transform: translateY(-2px) }
+va2btn:hover { border: 2px solid #0000; background: var(--va2b); color: #fff }
+#va2raw { display: none }
+#va2raw va2obj, #va2raw textarea { position: absolute }
+#va2raw va2obj { width: 100%; height: 2.5em; background: #444; display: flex; left: 0 }
+#va2raw textarea { width: 94%; height: calc(100% - 7em); margin: 3.5em 3%; background: none }
+#va2raw p { flex: 1; padding: 0.5em }
+#va2raw p:hover { background: #555; color: var(--va2a) }
+#va2rawCSS, #va2rawJS { display: none }
+</style>`,
+
+init_js: `va2b.user = {
 	sessionId: va2.uid('va2env.'),
 	storage: 'local',
 	preset: {
-		zIndex: '0',
 		backgroundColor: 'black',
 		width: '80vmin',
 		height: '20vmin',
 		margin: 'auto',
-		borderRadius: '2vh',
 	},
+}`,
+
+init_css: `:root {
+	/* Color accent */
+	--a: #fb6;
+	--aSub: #a75;
+	--aLink: #ccc;
+	--aBg: #222;
+	--aBgSub: #fffd;
+	--aBgItem: #333;
+	--aBgHov: #333;
+	--aFont: #eee;
+	--aFontSub: #ccc;
+	--aFontHov: #fff;
+	--aFontBg: #fff;
+	--aBorder: #444;
+	--aBody: #000;
+	--aSel: #fb6;
+
+	/* Fonts */
+	--font: 'Noto Sans JP';
+	--fontSub: 'Montserrat';
+	--fontPrint: 'Roboto Slab';
+	--fontStory: 'Cinzel';
+	--fontCode: 'Inconsolata';
+	--fontFancy: 'Dancing Script';
+	--fontPixel: 'Pixelify Sans';
+	--fontBlog: 'Smooch Sans';
+
+	/* Other meta */
+	--rounding: calc(1.5vh + 2vmin);
+	--border: none;
+	--blockDistance: 0;
+	--blockHeight: 100%;
+	--blockWidth: 100%;
+	--bgFront: none;
+	--bgBack: none;
 }`,
 }
 

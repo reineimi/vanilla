@@ -24,6 +24,7 @@ font-variation-settings:
 /*--- Core meta-styles ---*/
 :root {
 	--deviceHeight: 100dvh;
+
 	/* Color accent */
 	--a: #fb6;
 	--aSub: #a75;
@@ -39,6 +40,7 @@ font-variation-settings:
 	--aBorder: #444;
 	--aBody: #000;
 	--aSel: #fb6;
+
 	/* Font styles */
 	--font: 'Noto Sans JP';
 	--fontSub: 'Montserrat';
@@ -62,7 +64,8 @@ font-variation-settings:
 
 	--fBig: 600 calc(0.4vw + 4vh) var(--font);
 	--fHuge: 700 calc(0.5vw + 5vh) var(--font);
-	/* Other globals */
+
+	/* Other meta */
 	--rounding: calc(1.5vh + 2vmin);
 	--border: none;
 	--blockDistance: 0;
@@ -122,6 +125,27 @@ img.emoji { width: 1em; pointer-events: none }
 .lc { text-transform: lowercase }
 .cap { text-transform: capitalize }
 .bold { font-weight: 600 }
+/* Positions */
+.ltop {
+	left: 0; right: unset;
+	top: 0; bottom: unset;
+	margin: 0 auto auto 0
+}
+.lbot {
+	left: 0; right: unset;
+	top: unset; bottom: 0;
+	margin: auto auto 0 0
+}
+.rtop {
+	left: unset; right: 0;
+	top: 0; bottom: unset;
+	margin: 0 0 auto auto
+}
+.rbot {
+	left: unset; right: 0;
+	top: unset; bottom: 0;
+	margin: auto 0 0 auto
+}
 /* Google material symbols */
 .material-symbols-outlined {
 	font-variation-settings:
