@@ -666,6 +666,7 @@ const va2b = {
 		let partA = document.createElement('va2obj')
 		partA.id = 'va2switch'
 		partA.className = 'center nosel'
+		partA.style.position = 'fixed'
 		partA.innerHTML = `<va2obj>VA二</va2obj>`
 		partA.onclick = Function("va2b.enable('va2switch')")
 		document.documentElement.appendChild(partA)
@@ -730,18 +731,18 @@ const va2b_temp = {
 <va2obj id='va2editor' class='center bounded'>
 	<va2obj id='va2head' class='center'></va2obj>
 	<va2obj id='va2fields' class='center bounded'></va2obj>
-	<va2obj id='va2foot' class='center'></va2obj>
+	<va2obj id='va2foot' class='center nosel'></va2obj>
 </va2obj>
 <va2obj id='va2raw' class='bounded' spellcheck='false'>
 	<textarea id='va2rawHTML' onfocusout='va2b.RSWT(this.id)'></textarea>
 	<textarea id='va2rawCSS' onfocusout='va2b.RSWT(this.id)'></textarea>
 	<textarea id='va2rawJS' onfocusout='va2b.RSWT(this.id)'></textarea>
-	<va2obj class='center' style='top: 0; box-shadow: 2vh 0 3vh #0007'>
+	<va2obj class='center nosel' style='top: 0; box-shadow: 2vh 0 3vh #0007'>
 		<p onclick="va2.hide('va2rawCSS', 'va2rawJS'); va2.show('va2rawHTML')" style='border-right: 2px solid #333'>HTML</p>
 		<p onclick="va2.hide('va2rawHTML', 'va2rawJS'); va2.show('va2rawCSS')">CSS</p>
 		<p onclick="va2.hide('va2rawHTML', 'va2rawCSS'); va2.show('va2rawJS')" style='border-left: 2px solid #333'>JS</p>
 	</va2obj>
-	<va2obj class='center' style='bottom: 0; box-shadow: -2vh 0 3vh #0007'>
+	<va2obj class='center nosel' style='bottom: 0; box-shadow: -2vh 0 3vh #0007'>
 		<p onclick='va2b.saveRaw()'>Save</p>
 	</va2obj>
 </va2obj>
