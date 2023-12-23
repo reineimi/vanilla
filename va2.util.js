@@ -331,10 +331,9 @@ const va2 = {
 			}
 		} else { log('a8 :: Element with id ['+id+'] does not exist', 1) }
 	},
-	// Slider widget function
-	//1. Create a bunch of elements with equal incrementing ids --> 'cat1', 'cat2', 'cat3'
-	//2. Initiate them in the body.onload() --> slide('cat', 1, 3)
-	//3. Set styles for given elements --> .cats.slide {display: block}; .cats.slided {display: none}
+	// Slider widget function, ex:
+	// <div onclick="va2.slide('cat', 'n')"></div>
+	// <img id='cat1'> <img id='cat2'>
 	slides: {},
 	slide: function(id, dir) {
 		const slides = va2.slides
