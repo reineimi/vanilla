@@ -126,8 +126,9 @@ c { color: var(--a); display: inline }
 .lc { text-transform: lowercase }
 .cap { text-transform: capitalize }
 .bold { font-weight: 600 }
-.tl { text-align: left }
-.tr { text-align: right }
+.tl, .center .tl { text-align: left }
+.tr, .center .tr { text-align: right }
+.tc, .center .tc { text-align: center }
 .kana {
 	text-orientation: upright;
 	writing-mode: vertical-rl;
