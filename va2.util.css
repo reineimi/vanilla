@@ -111,10 +111,11 @@ iframe { border: none; outline: none; border-radius: var(--rounding) }
 input, textarea { white-space: nowrap; border: none; outline: none; color: inherit; font: inherit; resize: none }
 img { pointer-events: none }
 a { display: block; cursor: pointer }
-b { font-weight: 600; display: inline }
-c { color: var(--a); display: inline }
-bg { all: unset; display: block; position: absolute }
 img.emoji { width: 1em; pointer-events: none }
+/* Bold text */
+b { font-weight: 600; display: inline; margin: 0 }
+/* Coloured text */
+c { color: var(--a); display: inline }
 
 /*--- Global meta-styles ---*/
 .ita { font-style: italic }
@@ -189,17 +190,6 @@ img.emoji { width: 1em; pointer-events: none }
 }
 /* Absolute position */
 .abs, .center .abs { position: absolute; margin: none }
-/* Element in text */
-.inline {
-	float: left; display: inline-block;
-	width: 150px; height: 150px;
-	margin: 0.75em
-}
-.inlineR {
-	float: right; display: inline-block;
-	width: 250px; height: 250px;
-	margin: 0.75em
-}
 /* Gradient text */
 .grad {
 	background-clip: text;
@@ -274,7 +264,22 @@ img.emoji { width: 1em; pointer-events: none }
 	font: inherit; color: inherit;
 	text-decoration: none;
 	border: none; outline: none;
-	margin: 0; padding: 0
+	margin: 0; padding: 0;
+}
+/* Element in text */
+.txt {
+	font: inherit;
+	display: inline-block;
+	float: left; margin: 0;
+	width: 1em; height: 1em;
+	transform: translateY(0.25em)
+}
+.txtr {
+	font: inherit;
+	display: inline-block;
+	float: right; margin: 0;
+	width: 1em; height: 1em;
+	transform: translateY(0.25em)
 }
 /* Input field */
 .input {
